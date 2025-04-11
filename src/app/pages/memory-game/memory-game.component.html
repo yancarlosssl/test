@@ -1,0 +1,15 @@
+
+<div class="game-container">
+    <h2>Jugador {{ currentPlayer }} - P1: {{ scores[0] }} | P2: {{ scores[1] }}</h2>
+  
+    <div class="grid">
+      <div 
+        class="card" 
+        *ngFor="let card of cards" 
+        [class.visible]="card.state !== 'hidden'"
+        [class.matched]="card.state === 'matched'"
+        (click)="selectCard(card)">
+        <span *ngIf="card.state !== 'hidden'">{{ card.icon }}</span>
+      </div>
+    </div>
+  </div>
