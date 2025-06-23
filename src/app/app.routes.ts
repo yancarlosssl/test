@@ -1,25 +1,28 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { AboutComponent } from './pages/about/about.component';
 import { MemoryGameComponent } from './pages/memory-game/memory-game.component';
-
+import { RegistroJugadorComponent } from './components/registro-jugador/registro-jugador.component'; // 👈 importa el componente
+import { InicioComponent } from './components/inicio/inicio.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'juego',
+    redirectTo: 'inicio',
     pathMatch: 'full'
   },
   {
-    path: 'home',
-    component: MemoryGameComponent
+    path: 'registro-jugador',
+    component: RegistroJugadorComponent
   },
   {
-    path: 'about',
-    component: AboutComponent
-  },
+ 
+  path: 'juego/:id',
+  component: MemoryGameComponent
+},
+ 
   {
-    path: 'juego',
-    component: MemoryGameComponent
+    path: 'inicio', 
+    
+    component: InicioComponent
+
   }
 ];

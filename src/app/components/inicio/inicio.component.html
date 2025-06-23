@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>CREAR PARTIDA</h2>
+  <div class="underline"></div>
+
+  <label for="jugador1">JUGADOR 1</label>
+  <select id="jugador1" [(ngModel)]="jugador1">
+    <option [value]="''" disabled selected>Selecciona un jugador</option>
+    <option *ngFor="let jugador of jugadores" [value]="jugador.id">{{ jugador.name }}</option>
+  </select>
+
+  <label for="jugador2">JUGADOR 2</label>
+  <select id="jugador2" [(ngModel)]="jugador2">
+    <option [value]="''" disabled selected>Selecciona un jugador</option>
+    <option *ngFor="let jugador of jugadores" [value]="jugador.id">{{ jugador.name }}</option>
+  </select>
+
+  <button class="btn-principal" (click)="crearPartida()">JUGAR</button>
+  <button class="btn-secundario" (click)="irARegistro()">REGISTRAR JUGADOR</button>
+</div>

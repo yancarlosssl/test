@@ -1,35 +1,48 @@
 .game-container
-  text-align: center
-  margin: 20px auto
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  margin-top: 30px
 
-  h2
-    margin-bottom: 20px
-    font-size: 1.5rem
+.scoreboard
+  margin-bottom: 20px
+  font-size: 1.2rem
 
-.grid
+.game-board
   display: grid
-  grid-template-columns: repeat(4, 100px)
-  gap: 10px
+  grid-template-columns: repeat(4, 80px)
+  grid-gap: 15px
   justify-content: center
 
 .card
-  width: 100px
-  height: 100px
-  font-size: 2rem
+  width: 80px
+  height: 80px
+  perspective: 600px
+  cursor: pointer
+
+.card-inner
+  width: 100%
+  height: 100%
+  position: relative
+  transition: transform 0.6s
+  transform-style: preserve-3d
+
+.card.revealed .card-inner
+  transform: rotateY(180deg)
+
+.card-front, .card-back
+  position: absolute
+  width: 100%
+  height: 100%
   display: flex
   align-items: center
   justify-content: center
-  background-color: #4caf50
-  color: white
+  font-size: 2rem
+  border: 2px solid #ccc
   border-radius: 10px
-  cursor: pointer
-  transition: background-color 0.3s ease
+  background-color: #fff
+  backface-visibility: hidden
 
-  &.visible
-    background-color: #eee
-    color: #333
-
-  &.matched
-    background-color: #90ee90
-    color: #222
-    cursor: default
+.card-back
+  transform: rotateY(180deg)
