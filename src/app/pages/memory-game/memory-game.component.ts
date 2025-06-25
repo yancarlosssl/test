@@ -1,8 +1,8 @@
 // src/app/pages/memory-game/memory-game.component.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { PartidaService } from '../../services/partida.service';
 import { AciertoService } from '../../services/acierto.service';
@@ -25,21 +25,26 @@ export class MemoryGameComponent implements OnInit {
 
   jugador1_id: string = '';
   jugador2_id: string = '';
-  partida_id: number = 0;
+  @Input('id') partida_id: string = '';
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private partidaService: PartidaService,
     private aciertoService: AciertoService
   ) {}
 
   ngOnInit(): void {
+
+    console.log(this.partida_id);
     this.jugador1_id = localStorage.getItem('jugador1_id') || '';
     this.jugador2_id = localStorage.getItem('jugador2_id') || '';
 
-    this.route.queryParams.subscribe(params => {
-      this.partida_id = Number(params['partida_id']);
-    });
+    if (!this.jugador1_id || !this.jugador2_id) {
+      console.error('❌ Jugadores no encontrados en localStorage');
+      this.router.navigate(['/']);
+      return;
+    }
 
     this.initializeCards();
   }
@@ -97,20 +102,6 @@ registrarAcierto(): void {
     return;
   }
 
-  const nuevoAcierto = {
-    user_id: userIdNumber,
-    partida_id: partidaIdNumber,
-    aciertos: 1
-  };
-
-  this.aciertoService.create(nuevoAcierto).subscribe({
-    next: (res) => {
-      console.log('✅ Acierto registrado:', res);
-    },
-    error: (err) => {
-      console.error('❌ Error al registrar acierto:', err.error || err.message);
-      }
-    });
   }
 
   juegoTerminado(): void {
@@ -122,5 +113,27 @@ registrarAcierto(): void {
     } else {
       alert('¡Empate! 🤝');
     }
+
+    this.guardarAcierto(Number(this.jugador1_id), this.scores[0]);
+    this.guardarAcierto(Number(this.jugador2_id), this.scores[1]);
+    this.router.navigate(['/']);
   }
+
+  guardarAcierto(user_id: number, aciertos: number): void {
+    const nuevoAcierto = {
+    user_id: user_id,
+    partida_id: Number(this.partida_id),
+    aciertos: aciertos,
+    tiempo: 0 // Aquí podrías agregar lógica para calcular el tiempo si es necesario
+    };
+
+    this.aciertoService.create(nuevoAcierto).subscribe({
+      next: (res) => {
+        console.log('✅ Acierto registrado:', res);
+      },
+      error: (err) => {
+        console.error('❌ Error al registrar acierto:', err.error || err.message);
+        }
+      });
+    }
 }

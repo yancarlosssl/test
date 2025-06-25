@@ -51,7 +51,7 @@ export class InicioComponent implements OnInit {
           alert(`✅ ${JSON.stringify(res, null, 2)}`);
 
           // Redirigir al componente del juego
-          this.router.navigate(['/juego', res.juego_id]);
+          this.router.navigate(['/juego', res.id]);
         },
         error: err => {
           console.error('❌ Error al crear partida:', err.error || err);
